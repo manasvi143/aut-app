@@ -24,11 +24,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
     setState(() {
       loading = true;
     });
-
     pNumber = '+91${num.text}';
     await FirebaseAuth.instance.verifyPhoneNumber(
         verificationCompleted: (phoneAuthCredential) {},
         verificationFailed: (FirebaseAuthException ex) {
+          setState(() {
+            loading = false;
+          });
           log(ex.toString());
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Please check the Phone Number'),
@@ -50,9 +52,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
         codeAutoRetrievalTimeout: (String verificationId) {},
         phoneNumber: pNumber);
 
-    setState(() {
-      loading = false;
-    });
+    // setState(() {
+    //   loading = false;
+    // });
   }
 
   void _ontap() async {
